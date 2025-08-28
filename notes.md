@@ -8,3 +8,7 @@ No contexto do SOLID, o use-case ajuda a aplicar princípios como:
 - **Dependency Inversion Principle (DIP):** Use-cases dependem de abstrações (interfaces), não de implementações concretas, permitindo maior flexibilidade.
 
 Em resumo, o use-case é o coração da lógica de negócio, conectando controllers, repositórios e serviços de forma clara e desacoplada.
+
+
+## Ierarquia de desenvolvimento
+use-case => erros => testes unitarios => controllers => 
