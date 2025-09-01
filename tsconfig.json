@@ -42,5 +42,7 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
     // "no-useless-constructor":"off"
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
   }
 }
