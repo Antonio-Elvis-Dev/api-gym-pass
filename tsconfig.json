@@ -8,10 +8,10 @@
     // See also https://aka.ms/tsconfig/module
     "module": "commonjs",
     "target": "es2022",
-    "types": [],
+    // "types": ['node'],
     // For nodejs:
     // "lib": ["esnext"],
-    // "types": ["node"],
+    "types": ["node"],
     // and npm install -D @types/node
     // Other Outputs
     "sourceMap": true,
@@ -27,7 +27,7 @@
     // "noUnusedParameters": true,
     // "noFallthroughCasesInSwitch": true,
     // "noPropertyAccessFromIndexSignature": true,
-    "baseUrl": "",
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
@@ -35,8 +35,8 @@
     },
     // Recommended Options
     "strict": true,
-    "jsx": "react-jsx",
-    "verbatimModuleSyntax": false,
+    // "jsx": "react-jsx",
+    // "verbatimModuleSyntax": false,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",

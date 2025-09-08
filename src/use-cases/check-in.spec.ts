@@ -1,9 +1,10 @@
-import { GymsRepository } from './../repositories/gyms-repository';
 import { expect, describe, it, beforeEach, afterEach, vi } from 'vitest'
 import { InMemoryCheckInsRepository } from '@/repositories/in-memory/in-memory-check-ins-repository';
 import { CheckInUseCase } from './check-in';
 import { InMemoryGymsRepository } from '@/repositories/in-memory/in-memory-gyms-repository';
-import { Decimal } from '@/generated/prisma/runtime/library';
+import { Decimal } from '@prisma/client/runtime';
+import { MaxDistanceError } from './errors/max-distance-error';
+import { MaxNumberOfCheckInsError } from './errors/max-number-of-check-ins-erros';
 
 // Unit Test - testes unitarios 
 
@@ -13,19 +14,23 @@ let sut: CheckInUseCase // system under test
 
 describe('Check-in Use Case', () => {
 
-    beforeEach(() => {
+    beforeEach(async () => {
         checkInsRepository = new InMemoryCheckInsRepository()
         gymsRepository = new InMemoryGymsRepository()
         sut = new CheckInUseCase(checkInsRepository, gymsRepository)
 
-        gymsRepository.items.push({
+        await gymsRepository.create({
             id: 'gym-01',
             title: 'JavaScript Gym',
             description: '',
             phone: '',
-            latitude: new Decimal(-9.416485),
-            longitude: new Decimal(-36.623660),
+            latitude: -9.416485,
+            longitude: -36.623660,
         })
+
+
+
+
         vi.useFakeTimers()
     })
 
@@ -69,7 +74,7 @@ describe('Check-in Use Case', () => {
                 userLatitude: -9.416485,
                 userLongitude: -36.623660
             })
-        ).rejects.toBeInstanceOf(Error)
+        ).rejects.toBeInstanceOf(MaxNumberOfCheckInsError)
 
     })
     it('should be able to check in twice but in different days', async () => {
@@ -98,22 +103,22 @@ describe('Check-in Use Case', () => {
 
         //-9.406466, -36.629427
         //-9.406307, -36.629162
-    gymsRepository.items.push({
-      id: 'gym-02',
-      title: 'JavaScript Gym',
-      description: '',
-      phone: '',
-      latitude: new Decimal(-9.406466),
-      longitude: new Decimal(-36.629427),
-    })
+        gymsRepository.items.push({
+            id: 'gym-02',
+            title: 'JavaScript Gym',
+            description: '',
+            phone: '',
+            latitude: new Decimal(-9.406466),
+            longitude: new Decimal(-36.629427),
+        })
 
-    await expect(() =>
-      sut.execute({
-        gymId: 'gym-02',
-        userId: 'user-01',
-        userLatitude:-9.4076533,
-        userLongitude: -36.6277555,
-      }),
-    ).rejects.toBeInstanceOf(Error)
-  })
+        await expect(() =>
+            sut.execute({
+                gymId: 'gym-02',
+                userId: 'user-01',
+                userLatitude: -9.4076533,
+                userLongitude: -36.6277555,
+            }),
+        ).rejects.toBeInstanceOf(MaxDistanceError)
+    })
 })

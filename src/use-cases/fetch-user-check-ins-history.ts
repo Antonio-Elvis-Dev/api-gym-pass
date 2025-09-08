@@ -1,35 +1,31 @@
-import { CheckIn } from  "@prisma/client";
-import { CheckInsRepository } from "@/repositories/check-ins-repository";
+
 import { GymsRepository } from "@/repositories/gyms-repository";
 import { getDistanceBetweenCoordinates } from "@/utils/get-distance-between-coordinates";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 import { MaxDistanceError } from "./errors/max-distance-error";
-import { MaxNumberOfCheckInsError } from "./errors/max-number-of-check-ins-erros";
+import { CheckIn } from "@prisma/client";
+import { CheckInsRepository } from "@/repositories/check-ins-repository";
 
 
-interface CheckInUseCaseRequest {
+interface FetchUserCheckInsHistoryUseCaseRequest {
     userId: string
-    gymId: string
-    userLatitude: number
-    userLongitude: number
+   
 }
-interface CheckInUseCaseResponse {
-    checkIn: CheckIn
+interface FetchUserCheckInsHistoryUseCaseResponse {
+    checkIns: CheckIn[]
 }
 
-export class CheckInUseCase {
+export class FetchUserCheckInsHistoryUseCase {
 
     constructor(
-        private checkInsRepository: CheckInsRepository, // dependencia de checkIn
+        private checkInsRepository: CheckInsRepository, // dependencia de fetchUserCheckInsHistory
         private gymsRepository: GymsRepository // dependencia de gym
     ) { }
 
     async execute({
         gymId,
-        userId,
-        userLatitude,
-        userLongitude
-    }: CheckInUseCaseRequest): Promise<CheckInUseCaseResponse> {
+        
+    }: FetchUserCheckInsHistoryUseCaseRequest): Promise<FetchUserCheckInsHistoryUseCaseResponse> {
 
         const gym = await this.gymsRepository.findById(gymId)
 
@@ -48,22 +44,22 @@ export class CheckInUseCase {
             throw new MaxDistanceError()
         }
 
-        const checkInInSameDay = await this.checkInsRepository.findByUserIdOnDate(
+        const fetchUserCheckInsHistoryInSameDay = await this.checkInsRepository.findByUserIdOnDate(
             userId,
             new Date() // data atual
         )
 
-        if (checkInInSameDay) {
-            throw new MaxNumberOfCheckInsError()
+        if (fetchUserCheckInsHistoryInSameDay) {
+            throw new Error()
         }
 
-        const checkIn = await this.checkInsRepository.create({
+        const fetchUserCheckInsHistory = await this.checkInsRepository.create({
             gym_id: gymId,
             user_id: userId
         })
 
         return {
-            checkIn,
+            fetchUserCheckInsHistory,
         }
     }
 }
