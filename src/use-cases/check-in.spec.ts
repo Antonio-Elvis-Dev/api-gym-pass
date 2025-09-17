@@ -27,10 +27,6 @@ describe('Check-in Use Case', () => {
             latitude: -9.416485,
             longitude: -36.623660,
         })
-
-
-
-
         vi.useFakeTimers()
     })
 

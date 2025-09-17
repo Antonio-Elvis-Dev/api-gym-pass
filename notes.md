@@ -19,3 +19,8 @@ use-case => erros => testes unitarios => controllers => routes
 ## TDD - Test-Driven Development: Desenvolvimento dirigido a testes.
 
 -  
+
+
+## nomenclatura
+ - get: retorna varios itens
+ - fetch: retorna um item
