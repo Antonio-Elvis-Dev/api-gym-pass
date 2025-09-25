@@ -9,4 +9,4 @@ export function makeAuthenticateUseCase() {
     const authenticateUseCase = new AuthenticateUseCase(usersRepository)
 
     return authenticateUseCase
-}
+} 
