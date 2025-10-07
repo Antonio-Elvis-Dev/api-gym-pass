@@ -21,8 +21,6 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
         const startOfTheDay = dayjs(date).startOf('date')
         const endOfTheDay = dayjs(date).endOf('date')
 
-
-
         const checkIn = await prisma.checkIn.findFirst({
             where: {
                 user_id: userId,
@@ -50,7 +48,7 @@ export class PrismaCheckInsRepository implements CheckInsRepository {
         return checkIns
 
     }
-    async countByUserId(userId: string) {
+    async countByUserId(userId: string):Promise<number> {
 
         const count = await prisma.checkIn.count({
             where: {

@@ -11,15 +11,25 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
         password: z.string().min(6)
     })
 
-    const {  email, password } = authenticateBodySchema.parse(request.body)
+    const { email, password } = authenticateBodySchema.parse(request.body)
 
     try {
-       
+
         const authenticateUseCase = makeAuthenticateUseCase()
 
-        await authenticateUseCase.execute({
+        const { user } = await authenticateUseCase.execute({
             email,
             password
+        })
+
+
+        const token = await reply.jwtSign({}, {
+            sign: {
+                sub: user.id
+            }
+        })
+        return reply.status(200).send({
+            token
         })
     } catch (err) {
 
@@ -29,6 +39,5 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
         }
         throw err
     }
-    return reply.status(200).send()
 
 } 
