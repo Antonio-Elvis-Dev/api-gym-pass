@@ -22,7 +22,7 @@ export async function search(request: FastifyRequest, reply: FastifyReply) {
 
     })
 
-    return reply.status(201).send({
+    return reply.status(200).send({
         gyms
     })
 

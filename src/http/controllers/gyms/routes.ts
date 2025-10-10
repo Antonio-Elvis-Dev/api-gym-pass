@@ -1,9 +1,9 @@
 import { FastifyInstance } from "fastify";
 
 import { verifyJWT } from "../../middlewares/verify-jwt";
-import { search } from "./search-controller";
-import { nearby } from "./nearby-controller";
-import { create } from "./create-controller";
+import { search } from "./search";
+import { nearby } from "./nearby";
+import { create } from "./create";
 
 export async function gymsRoutes(app: FastifyInstance) {
 

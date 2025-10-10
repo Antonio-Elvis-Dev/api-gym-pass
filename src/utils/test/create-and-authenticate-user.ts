@@ -3,8 +3,6 @@ import request from 'supertest'
 
 export async function createAndAuthenticateUser(app: FastifyInstance) {
 
-
-
     await request(app.server)
         .post('/users')
         .send({
