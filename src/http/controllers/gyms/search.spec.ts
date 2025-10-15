@@ -15,13 +15,13 @@ describe('Search Gym (e2e)', () => {
     })
     it('should be able to search a gyms by title', async () => {
 
-        const { token } = await createAndAuthenticateUser(app)
+        const { token } = await createAndAuthenticateUser(app, true)
 
         await request(app.server)
             .post('/gyms')
             .set('Authorization', `Bearer ${token}`)
             .send({
-                title: 'JS Gym',
+                title: 'Roga Gym',
                 description: 'some description',
                 phone: '334324324',
                 latitude: -9.406466,
@@ -41,7 +41,7 @@ describe('Search Gym (e2e)', () => {
         const response = await request(app.server)
             .get('/gyms/search')
             .query({
-                q: 'JS'
+                q: 'Roga'
             }).set("Authorization", `Bearer ${token}`)
             .send()
 
@@ -49,7 +49,7 @@ describe('Search Gym (e2e)', () => {
         expect(response.body.gyms).toHaveLength(1)
         expect(response.body.gyms).toEqual([
             expect.objectContaining({
-                title:'JS Gym'
+                title:'Roga Gym'
             })
         ])
 
