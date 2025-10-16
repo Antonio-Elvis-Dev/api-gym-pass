@@ -10,5 +10,17 @@ No contexto do SOLID, o use-case ajuda a aplicar princípios como:
 Em resumo, o use-case é o coração da lógica de negócio, conectando controllers, repositórios e serviços de forma clara e desacoplada.
 
 
-## Ierarquia de desenvolvimento
-use-case => erros => testes unitarios => controllers => 
+## Ierarquia de desenvolvimento -> SOLID
+
+use-case => erros => testes unitarios => controllers => routes
+
+- Primeiro fazer os casos de uso e teste unitarios -> logo após focar na infra e controllers
+
+## TDD - Test-Driven Development: Desenvolvimento dirigido a testes.
+
+-  
+
+
+## nomenclatura
+ - get: retorna varios itens
+ - fetch: retorna um item
